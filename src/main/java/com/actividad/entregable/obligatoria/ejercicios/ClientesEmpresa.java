@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class ClientesEmpresa extends Clientes{
+public final class ClientesEmpresa extends Clientes{
     private String nombreDeFantasia;
     private int cuit;
     

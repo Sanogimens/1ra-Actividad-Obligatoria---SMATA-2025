@@ -19,6 +19,7 @@ public final class CuentaConvertibilidad extends Cuentas {
         this.saldo = saldo;
     }
 
+    @Override
     public void depositarEfectivo(float monto) {
         if (monto <= 0) {
             System.out.println("El monto a depositar debe ser positivo.");
