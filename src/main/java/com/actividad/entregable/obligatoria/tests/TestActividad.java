@@ -27,6 +27,24 @@ public class TestActividad {
                 System.out.println("Tipo de cliente no válido.");
                 return;
             }
+            if (cliente instanceof ClientesIndividuales) {
+                System.out.println("Ingrese su nombre:");
+                String nombre = teclado.next();
+                ((ClientesIndividuales) cliente).setNombre(nombre);
+                System.out.println("Ingrese su apellido:");
+                String apellido = teclado.next();
+                ((ClientesIndividuales) cliente).setApellido(apellido);
+                System.out.println("Ingrese su DNI:");
+                int dni = teclado.nextInt();
+                ((ClientesIndividuales) cliente).setDni(dni);
+            } else if (cliente instanceof ClientesEmpresa) {
+                System.out.println("Ingrese su nombre de fantasia:");
+                String nombreDeFantasia = teclado.next();
+                ((ClientesEmpresa) cliente).setNombreDeFantasia(nombreDeFantasia);
+                System.out.println("Ingrese su CUIT:");
+                int cuit = teclado.nextInt();
+                ((ClientesEmpresa) cliente).setCuit(cuit);
+            }
             System.out.print(
                     "Ingrese el tipo de cuenta (1-Caja de Ahorro, 2-Cuenta Corriente, 3-Cuenta Convertibilidad): ");
             int tipoCuenta = teclado.nextInt();
@@ -125,6 +143,7 @@ do {
             } else {
                 System.out.println("La cuenta no genera intereses.");
             }
+            break;
         case 7:
             if (cuenta instanceof CuentaConvertibilidad) {
                 System.out.print("Ingrese el monto en pesos a convertir a dólares: ");

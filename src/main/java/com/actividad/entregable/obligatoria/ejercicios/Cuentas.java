@@ -35,9 +35,4 @@ public class Cuentas {
         }
 
     }
-
-    public float consultarSaldo() {
-        return this.saldo;
-    }
-
 }

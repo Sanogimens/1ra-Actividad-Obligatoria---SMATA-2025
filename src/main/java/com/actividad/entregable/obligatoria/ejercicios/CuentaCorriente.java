@@ -51,10 +51,4 @@ public final class CuentaCorriente extends Cuentas{
         }
 
     }
-
-    public void depositarCheque(float montoCheque) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'depositarCheque'");
-    }
-
 }
