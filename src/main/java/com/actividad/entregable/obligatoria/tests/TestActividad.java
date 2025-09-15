@@ -52,15 +52,20 @@ public class TestActividad {
             if (tipoCuenta == 1) {
                 cuenta = new CajaAhorro(tipoCuenta, cliente, 0);
             } else if (tipoCuenta == 2) {
-                cuenta = new CuentaCorriente(tipoCuenta, cliente, 0);
+                cuenta = new CuentaCorriente(tipoCuenta, cliente, 0, 500000);
             } else {
-                cuenta = new CuentaConvertibilidad(tipoCuenta, cliente, 0, 0);
+                cuenta = new CuentaConvertibilidad(tipoCuenta, cliente, 0, 500000);
             }
             if (!(tipoCuenta == 1 || tipoCuenta == 2 || tipoCuenta == 3)) {
                 System.out.println("Tipo de cuenta no válido.");
                 return;
             }
-
+            if (cliente instanceof ClientesIndividuales) {
+                if (tipoCuenta == 3) {
+                    System.out.println("Esta cuenta no puede ser electada por un cliente individual.");
+                    return;
+                }
+            }
             // menú de operaciones:
 int operacion = 0;
 do {
@@ -77,6 +82,7 @@ do {
             + "8-Convertir dólares a pesos\n"
             + "9-Consultar saldo en pesos\n"
             + "10-Consultar saldo en dólares\n"
+            + "11-Ver mi monto autorizado (solo para Cuenta Corriente y Cuenta Convertibilidad)\n"
             + "Opción: "
     );
     operacion = teclado.nextInt();
@@ -88,10 +94,27 @@ do {
             cuenta.depositarEfectivo(montoDepositoPesos);
             break;
         case 2:
+        if (cuenta instanceof CuentaCorriente || cuenta instanceof CuentaConvertibilidad) {
+            float limiteExtraccion = cuenta.getSaldo();
+            if (cuenta instanceof CuentaCorriente) {
+                limiteExtraccion += ((CuentaCorriente) cuenta).getMontoAutorizado();
+            } else if (cuenta instanceof CuentaConvertibilidad) {
+                limiteExtraccion += ((CuentaConvertibilidad) cuenta).getMontoAutorizado();
+            }
+            System.out.println("Límite de extracción (saldo + sobregiro): " + limiteExtraccion);
             System.out.print("Ingrese el monto a extraer en pesos: ");
             float montoExtraccionPesos = teclado.nextFloat();
             cuenta.extraerEfectivo(montoExtraccionPesos);
             break;
+        } else if (cuenta instanceof CajaAhorro) {
+            System.out.print("Ingrese el monto a extraer en pesos: ");
+            float montoExtraccionPesos = teclado.nextFloat();
+            cuenta.extraerEfectivo(montoExtraccionPesos);
+            break;
+        } else {
+            System.out.println("La cuenta no permite extracciones.");
+            break;
+        }
         case 3:
             if (cuenta instanceof CuentaConvertibilidad) {
                 System.out.print("Ingrese el monto a depositar en dólares: ");
@@ -172,6 +195,15 @@ do {
                 System.out.println("Saldo en dólares: " + ((CuentaConvertibilidad) cuenta).getSaldoEnDolares());
             } else {
                 System.out.println("La cuenta no maneja saldo en dólares.");
+            }
+            break;
+        case 11:
+            if (cuenta instanceof CuentaCorriente) {
+                System.out.println("Monto autorizado (sobregiro) de la Cuenta Corriente: " + ((CuentaCorriente) cuenta).getMontoAutorizado());
+            } else if (cuenta instanceof CuentaConvertibilidad) {
+                System.out.println("Monto autorizado (sobregiro) de la Cuenta Convertibilidad: " + ((CuentaConvertibilidad) cuenta).getMontoAutorizado());
+            } else {
+                System.out.println("La cuenta no tiene monto autorizado.");
             }
             break;
         case 0:

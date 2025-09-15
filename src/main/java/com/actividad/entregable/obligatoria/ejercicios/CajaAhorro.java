@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public final class CajaAhorro extends Cuentas{
     private float saldo;
-    private float tasaDeInteres;
+    private double tasaDeInteres;
 
     public CajaAhorro(int nroCuenta, Clientes cliente, float saldo) {
         super(nroCuenta, cliente);

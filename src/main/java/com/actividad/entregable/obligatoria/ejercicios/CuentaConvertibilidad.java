@@ -9,14 +9,14 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public final class CuentaConvertibilidad extends Cuentas {
     private float saldoEnDolares;
+    private float montoAutorizado;
     private static final double tasaCambioPesosADolares = 1420.97;
     private static final double tasaCambioDolaresAPesos = 1 / tasaCambioPesosADolares;
 
-    
-    public CuentaConvertibilidad(int nroCuenta, Clientes cliente, float saldoEnDolares, float saldo) {
+    public CuentaConvertibilidad(int nroCuenta, Clientes cliente, float saldoEnDolares, float montoAutorizado) {
         super(nroCuenta, cliente);
         this.saldoEnDolares = saldoEnDolares;
-        this.saldo = saldo;
+        this.montoAutorizado = montoAutorizado;
     }
 
     @Override
@@ -28,6 +28,17 @@ public final class CuentaConvertibilidad extends Cuentas {
         this.saldo += monto;
         System.out.println("Depositaste " + monto);
         System.out.println("Saldo actual en pesos: " + saldo);
+    }
+
+    @Override
+    public void extraerEfectivo(float monto){
+        if (monto <= (this.saldo + this.montoAutorizado)) {
+            this.saldo -= monto;
+            System.out.println("Retiraste " + monto);
+            System.out.println("Saldo restante en pesos: " + saldo);
+        } else {
+            System.out.println("No es posible descontar ese monto. Límite de extracción (saldo + sobregiro): " + (this.saldo + this.montoAutorizado));
+        }
     }
 
     public void depositarCheques(float monto, String bancoEmisor, LocalDate fechaDePago){
@@ -44,18 +55,6 @@ public final class CuentaConvertibilidad extends Cuentas {
         }
     }
 
-    @Override
-    public void extraerEfectivo(float monto){ 
-        if (monto <= this.saldo) {
-            this.saldo -= monto;
-            float montoEnPesos = monto;
-            System.out.println("Retiraste " + montoEnPesos);
-            System.out.println("Saldo restante en pesos: " + saldo);
-        } else {
-            System.out.println("No es posible descontar ese monto.");
-        }
-
-    }
 
 
     public void depositarDolares(float montoEnDolares) {
