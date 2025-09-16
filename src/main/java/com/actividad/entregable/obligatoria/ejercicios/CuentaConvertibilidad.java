@@ -5,32 +5,31 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.ToString;
 
-@Getter
+@Getter //Se toma el valor de un atributo/parámetro de tipo private.
 @ToString(callSuper = true)
-public final class CuentaConvertibilidad extends Cuentas {
+public final class CuentaConvertibilidad extends CuentaCorriente {
     private float saldoEnDolares;
-    private float montoAutorizado;
     private static final double tasaCambioPesosADolares = 1420.97;
     private static final double tasaCambioDolaresAPesos = 1 / tasaCambioPesosADolares;
 
-    public CuentaConvertibilidad(int nroCuenta, Clientes cliente, float saldoEnDolares, float montoAutorizado) {
-        super(nroCuenta, cliente);
+    public CuentaConvertibilidad(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado,
+            float saldoEnDolares) {
+        super(nroCuenta, cliente, saldo, montoAutorizado);
         this.saldoEnDolares = saldoEnDolares;
-        this.montoAutorizado = montoAutorizado;
     }
 
-    @Override
+    @Override //Redefine el método de la clase padre
     public void depositarEfectivo(float monto) {
         if (monto <= 0) {
-            System.out.println("El monto a depositar debe ser positivo.");
-            return;
+            System.out.println("El monto a depositar debe de ser positivo o no nulo.");
+            return; //Finaliza la ejecucción de un método, sale del mismo.
         }
         this.saldo += monto;
         System.out.println("Depositaste " + monto);
         System.out.println("Saldo actual en pesos: " + saldo);
     }
 
-    @Override
+    @Override //Redefine el método de la clase padre
     public void extraerEfectivo(float monto){
         if (monto <= (this.saldo + this.montoAutorizado)) {
             this.saldo -= monto;
@@ -41,13 +40,14 @@ public final class CuentaConvertibilidad extends Cuentas {
         }
     }
 
+    @Override //Redefine el método de la clase padre
     public void depositarCheques(float monto, String bancoEmisor, LocalDate fechaDePago){
-        LocalDate hoy = LocalDate.now();
+        LocalDate hoy = LocalDate.now(); //Es una clase que representa una fecha sin zona horaria.
         if (fechaDePago.isAfter(hoy)){
         System.out.println("El cheque aún no está disponible para depósito. Fecha de pago: " + fechaDePago);
         } 
         else if (monto <= 0){
-            System.out.println("El monto del cheque debe ser positivo.");
+            System.out.println("El monto del cheque debe ser positivo o no nulo.");
         } 
         else{
             saldo += monto;
@@ -59,7 +59,7 @@ public final class CuentaConvertibilidad extends Cuentas {
 
     public void depositarDolares(float montoEnDolares) {
          if (montoEnDolares <= 0) {
-            System.out.println("El monto a depositar debe ser positivo.");
+            System.out.println("El monto a depositar debe ser positivo o no nulo.");
         } else {
             saldoEnDolares += montoEnDolares;
             float montoEnPesos = (float)(montoEnDolares * tasaCambioPesosADolares);

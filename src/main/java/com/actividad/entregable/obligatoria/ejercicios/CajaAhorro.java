@@ -3,29 +3,29 @@ package com.actividad.entregable.obligatoria.ejercicios;
 import lombok.Getter;
 import lombok.ToString;
 
-@Getter
+@Getter //Se toma el valor de un atributo/parámetro de tipo private y protected.
 @ToString(callSuper = true)
-public final class CajaAhorro extends Cuentas{
+public final class CajaAhorro extends Cuenta{
     private float saldo;
     private double tasaDeInteres;
 
-    public CajaAhorro(int nroCuenta, Clientes cliente, float saldo) {
+    public CajaAhorro(int nroCuenta, Cliente cliente, float saldo) {
         super(nroCuenta, cliente);
         this.saldo = saldo;
     }
 
-    @Override
+    @Override //Redefine el método de la clase padre
     public void depositarEfectivo(float monto) {
         if (monto <= 0) {
-            System.out.println("El monto a depositar debe ser positivo.");
-            return;
+            System.out.println("El monto a depositar debe ser positivo o no nulo.");
+            return; //Finaliza la ejecucción de un método, sale del mismo.
         }
         this.saldo += monto;
         System.out.println("Depositaste " + monto);
         System.out.println("Saldo actual en pesos: " + saldo);
     }
 
-    @Override
+    @Override //Redefine el método de la clase padre
     public void extraerEfectivo(float monto){ 
         if (monto <= this.saldo) {
             this.saldo -= monto;
@@ -39,9 +39,9 @@ public final class CajaAhorro extends Cuentas{
     }
     
     public void cobrarInteres(double tasaDeInteres, double tiempoEnMeses){
-        if (tasaDeInteres < 0 || tiempoEnMeses < 0) {
-            System.out.println("La tasa de interés y el tiempo deben ser valores positivos.");
-            return;
+        if (tasaDeInteres <= 0 || tiempoEnMeses <= 0) {
+            System.out.println("La tasa de interés y el tiempo deben ser valores positivos o no nulos.");
+            return; //Finaliza la ejecucción de un método, sale del mismo.
         }
         double interes = this.saldo * Math.pow((1 + tasaDeInteres / 100), tiempoEnMeses) - this.saldo;
         this.saldo += interes;
