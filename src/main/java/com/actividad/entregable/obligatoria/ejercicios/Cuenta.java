@@ -2,17 +2,15 @@ package com.actividad.entregable.obligatoria.ejercicios;
 
 import lombok.Data;
 
-@Data //Agrupa las anotaciones de Getter, Setter, toString y RequiredArgsConstructor de la librería Lombok.
+@Data // Genera automáticamente los métodos getter, setter y toString para todos los campos de la clase.
 public class Cuenta{
 
     private final int nroCuenta;
     private final Cliente cliente;
     protected float saldo;
-    
 
     public void depositarEfectivo(float monto){
         if (monto <= 0){
-            return; //Finaliza la ejecucción de un método, sale del mismo.
         }
         this.saldo += monto;
     }

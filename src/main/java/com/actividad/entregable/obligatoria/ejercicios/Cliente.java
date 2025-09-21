@@ -2,7 +2,7 @@ package com.actividad.entregable.obligatoria.ejercicios;
 
 import lombok.Data;
 
-@Data //Agrupa las anotaciones de Getter, Setter, toString y RequiredArgsConstructor de la librería Lombok.
+@Data // Genera automáticamente los métodos getter, setter y toString para todos los campos de la clase.
 public abstract class Cliente{
     private int nroCliente;
 

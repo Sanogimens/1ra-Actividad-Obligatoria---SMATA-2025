@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter //Anotación de la librería Lombok que genera un método getter en todos los atributos/parámetros no estáticos.
-@Setter //Anotación de la librería Lombok que genera un método setter en todos los atributos/parámetros no estáticos.
-@ToString(callSuper = true) //Incluye el método toString de la clase padre.
+@Getter // Genera automáticamente los métodos getter para todos los campos de la clase.
+@Setter // Genera automáticamente los métodos setter para todos los campos de la clase.
+@ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
 public final class ClienteIndividual extends Cliente{
     private String nombre;
     private String apellido;
