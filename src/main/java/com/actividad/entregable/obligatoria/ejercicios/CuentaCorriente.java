@@ -5,52 +5,36 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.ToString;
 
-@Getter // Genera automáticamente los métodos getter para todos los campos de la clase.
+@Getter // Genera automáticamente los métodos getter para todos los campos.
 @ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
-public class CuentaCorriente extends Cuenta{
-    protected float saldo;
-    protected float montoAutorizado;
+public class CuentaCorriente extends Cuenta {
+    private float montoAutorizado;
 
-    public CuentaCorriente(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado){
-        super(nroCuenta, cliente);
-        this.saldo = saldo;
+    public CuentaCorriente(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado) {
+        super(nroCuenta, cliente, saldo);
         this.montoAutorizado = montoAutorizado;
     }
 
-    @Override //Redefine el método de la clase padre.
-    public void depositarEfectivo(float monto){
-        if (monto <= 0){
-            System.out.println("El monto a depositar debe ser positivo o no nulo.");
-            return; //Sale del método si el monto es inválido.
-        }
-        this.saldo += monto;
-        System.out.println("Depositaste " + monto);
-        System.out.println("Saldo actual en pesos: " + saldo);
-        return; //Sale del método después de completar la operación.
-    }
-
-    @Override //Redefine el método de la clase padre.
-    public void extraerEfectivo(float monto){
-        if (monto <= (this.saldo + this.montoAutorizado)){
+    @Override // Redefine el método de la clase padre.
+    public void extraerEfectivo(float monto) {
+        if (monto <= (this.saldo + this.montoAutorizado) && monto > 0) { // Verifica que el monto a extraer no supere el saldo más el sobregiro autorizado y que sea positivo.
             this.saldo -= monto;
             System.out.println("Retiraste " + monto);
             System.out.println("Saldo restante en pesos: " + saldo);
-            return; //Sale del método después de completar la operación.
-        } 
-        else{
+        } else {
             System.out.println("No es posible descontar ese monto. Límite de extracción (saldo + sobregiro): " + (this.saldo + this.montoAutorizado));
-            return; //Sale del método si no se puede completar la operación.
         }
     }
     
     public void depositarCheque(float monto, String bancoEmisor, LocalDate fechaDePago){
-        LocalDate hoy = LocalDate.now();
-        if (fechaDePago.isAfter(hoy)){
-        }
-        else if (monto <= 0){
-        }
-        else{
-            saldo += monto;
+        LocalDate hoy = LocalDate.now(); // Es una clase que representa una fecha sin zona horaria.
+        if (fechaDePago.isAfter(hoy)){ // El método isAfter() de la clase LocalDate se utiliza para comparar dos fechas y determinar si una fecha es posterior a otra.
+            System.out.println("El cheque aún no está disponible para depósito. Fecha de pago: " + fechaDePago);
+        } else if (monto <= 0) {
+            System.out.println("El monto del cheque debe ser positivo o no nulo.");
+        } else {
+            this.saldo += monto;
+            System.out.println("Cheque depositado por " + monto + " pesos del banco " + bancoEmisor + ". Nuevo saldo: " + saldo);
         }
     }
 }

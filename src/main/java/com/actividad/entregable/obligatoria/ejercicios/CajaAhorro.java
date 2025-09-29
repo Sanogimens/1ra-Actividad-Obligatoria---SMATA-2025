@@ -3,54 +3,25 @@ package com.actividad.entregable.obligatoria.ejercicios;
 import lombok.Getter;
 import lombok.ToString;
 
-@Getter // Genera automáticamente los métodos getter para todos los campos de la clase.
+@Getter // Genera automáticamente los métodos getter para todos los campos.
 @ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
-public final class CajaAhorro extends Cuenta{
-    private float saldo;
+public final class CajaAhorro extends Cuenta {
     private double tasaDeInteres;
 
-    public CajaAhorro(int nroCuenta, Cliente cliente, float saldo) {
-        super(nroCuenta, cliente);
-        this.saldo = saldo;
+    public CajaAhorro(int nroCuenta, Cliente cliente, float saldo, double tasaDeInteres) {
+        super(nroCuenta, cliente, saldo);
+        this.tasaDeInteres = tasaDeInteres;
     }
 
-    @Override //Redefine el método de la clase padre.
-    public void depositarEfectivo(float monto) {
-        if (monto <= 0) {
-            System.out.println("El monto a depositar debe ser positivo o no nulo.");
-            return; //Sale del método si el monto es inválido.
-        }
-        this.saldo += monto;
-        System.out.println("Depositaste " + monto);
-        System.out.println("Saldo actual en pesos: " + saldo);
-        return; //Sale del método después de completar la operación.
-    }
-
-    @Override //Redefine el método de la clase padre.
-    public void extraerEfectivo(float monto){ 
-        if (monto <= this.saldo) {
-            this.saldo -= monto;
-            float montoEnPesos = monto;
-            System.out.println("Retiraste " + montoEnPesos);
-            System.out.println("Saldo restante en pesos: " + saldo);
-            return; //Sale del método después de completar la operación.
-        } else {
-            System.out.println("No es posible descontar ese monto.");
-            return; //Sale del método si el monto es inválido.
-        }
-
-    }
-    
-    public void cobrarInteres(double tasaDeInteres, double tiempoEnMeses){
+    public void cobrarInteres(double tasaDeInteres, double tiempoEnMeses) {
         if (tasaDeInteres <= 0 || tiempoEnMeses <= 0) {
             System.out.println("La tasa de interés y el tiempo deben ser valores positivos o no nulos.");
-            return; //Sale del método si los parámetros son inválidos.
+        } else {
+            double tasaMensual = (tasaDeInteres / 100) / 12; // Convertir tasa anual a tasa mensual en decimal
+            double interes = this.saldo * (Math.pow(1 + tasaMensual, tiempoEnMeses) - 1); // Fórmula de interés compuesto
+            this.saldo += interes;
+            System.out.println("Se han cobrado intereses compuestos por un total de: " + interes);
+            System.out.println("Saldo actual en pesos: " + saldo);
         }
-        double interes = this.saldo * Math.pow((1 + tasaDeInteres / 100), tiempoEnMeses) - this.saldo;
-        this.saldo += interes;
-        System.out.println("Se han cobrado intereses compuestos por un total de: " + interes);
-        System.out.println("Saldo actual en pesos: " + saldo);
-        return; //Sale del método después de completar la operación.
     }
-
 }

@@ -3,7 +3,6 @@ package com.actividad.entregable.obligatoria.tests;
 import java.util.Scanner;
 
 import com.actividad.entregable.obligatoria.ejercicios.CajaAhorro;
-import com.actividad.entregable.obligatoria.ejercicios.Cheque;
 import com.actividad.entregable.obligatoria.ejercicios.Cliente;
 import com.actividad.entregable.obligatoria.ejercicios.ClienteEmpresa;
 import com.actividad.entregable.obligatoria.ejercicios.ClienteIndividual;
@@ -13,8 +12,8 @@ import com.actividad.entregable.obligatoria.ejercicios.CuentaCorriente;
 
 public class TestActividad {
     public static void main(String[] args) {
-        try ( //Se usa try-with-resources para cerrar automáticamente los recursos (Sugerido por VSCode).
-              //Inicialización de sistema bancario:
+        try ( // Se usa try-with-resources para cerrar automáticamente los recursos (Sugerido por VSCode).
+              // Inicialización de sistema bancario:
                 Scanner teclado = new Scanner(System.in)) { // Se usa la clase Scanner para obtener datos primitivos (int, double, etc...) y cadenas.
             System.out.print("Ingrese su número de cliente: ");
             int nroCliente = teclado.nextInt();
@@ -28,7 +27,7 @@ public class TestActividad {
             }
             if (!(tipoCliente == 1 || tipoCliente == 2)) {
                 System.out.println("Tipo de cliente no válido.");
-                return; //Sale del método main si el tipo de cliente no es válido.
+                return; // Sale del método main si el tipo de cliente no es válido.
             }
             if (cliente instanceof ClienteIndividual) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                 System.out.println("Ingrese su nombre:");
@@ -37,15 +36,23 @@ public class TestActividad {
                 System.out.println("Ingrese su apellido:");
                 String apellido = teclado.next();
                 ((ClienteIndividual) cliente).setApellido(apellido);
-                System.out.println("Ingrese su DNI:");
-                int dni = teclado.nextInt();
+                String dniStr;
+                do { // Bucle do-while para validar que el DNI tenga 8 dígitos.
+                    System.out.println("Ingrese su DNI (8 dígitos):");
+                    dniStr = teclado.next();
+                } while (dniStr.length() != 8);
+                int dni = Integer.parseInt(dniStr);
                 ((ClienteIndividual) cliente).setDni(dni);
             } else if (cliente instanceof ClienteEmpresa) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                 System.out.println("Ingrese su nombre de fantasia:");
                 String nombreDeFantasia = teclado.next();
                 ((ClienteEmpresa) cliente).setNombreDeFantasia(nombreDeFantasia);
-                System.out.println("Ingrese su CUIT:");
-                int cuit = teclado.nextInt();
+                String cuitStr;
+                do { // Bucle do-while para validar que el CUIT tenga 11 dígitos.
+                    System.out.println("Ingrese su CUIT (11 dígitos):");
+                    cuitStr = teclado.next();
+                } while (cuitStr.length() != 11);
+                long cuit = Long.parseLong(cuitStr); // uso long por seguridad
                 ((ClienteEmpresa) cliente).setCuit(cuit);
             }
             System.out.print(
@@ -53,21 +60,20 @@ public class TestActividad {
             int tipoCuenta = teclado.nextInt();
             Cuenta cuenta;
             if (tipoCuenta == 1) {
-                cuenta = new CajaAhorro(tipoCuenta, cliente, 0);
+                cuenta = new CajaAhorro(nroCliente, cliente, 0, 0);
             } else if (tipoCuenta == 2) {
-                cuenta = new CuentaCorriente(tipoCuenta, cliente, 0, 500000);
-                cuenta = new Cheque(null, null, 0, tipoCuenta, cliente, 0, 500000);
+                cuenta = new CuentaCorriente(nroCliente, cliente, 0, 500000);
             } else {
-                cuenta = new CuentaConvertibilidad(tipoCuenta, cliente, 0, 500000, 0);
+                cuenta = new CuentaConvertibilidad(nroCliente, cliente, 0, 500000, 0);
             }
             if (!(tipoCuenta == 1 || tipoCuenta == 2 || tipoCuenta == 3)) {
                 System.out.println("Tipo de cuenta no válido.");
-                return; //Sale del método main si el tipo de cuenta no es válido.
+                return; // Sale del método main si el tipo de cuenta no es válido.
             }
             if (cliente instanceof ClienteIndividual) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                 if (tipoCuenta == 3) {
                     System.out.println("Esta cuenta no puede ser elegida por un cliente individual.");
-                    return; //Sale del método main si el tipo de cuenta no es válido.
+                    return; // Sale del método main si el tipo de cuenta no es válido para el tipo de cliente.
                 }
             }
             // Menú de operaciones:
@@ -89,19 +95,19 @@ public class TestActividad {
                                 + "11-Ver mi monto autorizado (No disponible en Caja de ahorro)\n"
                                 + "Opción: ");
                 operacion = teclado.nextInt();
-                switch (operacion) { //Estructura de control que se usa para ejecutar una de las muchas sentencias de un bloque de código.
-                    case 1: //Se usa para definir un bloque de código.
+                switch (operacion) { // Estructura de control que se usa para ejecutar una de las muchas sentencias de un bloque de código.
+                    case 1: // Se usa para definir un bloque de código.
                         System.out.print("Ingrese el monto a depositar en pesos: ");
                         float montoDepositoPesos = teclado.nextFloat();
                         cuenta.depositarEfectivo(montoDepositoPesos);
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 2: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 2: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaCorriente || cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             float limiteExtraccion = cuenta.getSaldo();
                             if (cuenta instanceof CuentaCorriente) {
-                                limiteExtraccion += ((CuentaCorriente) cuenta).getMontoAutorizado();
+                                limiteExtraccion += ((CuentaCorriente) cuenta).getMontoAutorizado(); // Se suma el monto autorizado (sobregiro) al saldo para calcular el límite de extracción.
                             } else if (cuenta instanceof CuentaConvertibilidad) {
-                                limiteExtraccion += ((CuentaConvertibilidad) cuenta).getMontoAutorizado();
+                                limiteExtraccion += ((CuentaConvertibilidad) cuenta).getMontoAutorizado(); // Se suma el monto autorizado (sobregiro) al saldo para calcular el límite de extracción.
                             }
                             System.out.println("Límite de extracción (saldo + sobregiro): " + limiteExtraccion);
                             System.out.print("Ingrese el monto a extraer en pesos: ");
@@ -136,28 +142,19 @@ public class TestActividad {
                         }
                         break; //En este caso, se usa para salir de la sentencia.
                     case 5:
-                        if (cuenta instanceof CuentaCorriente) { //Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
-                            System.out.print("Ingrese el monto del cheque a depositar en pesos: ");
-                            float montoCheque = teclado.nextFloat();
-                            System.out.print("Ingrese el banco emisor del cheque: ");
-                            String bancoEmisor = teclado.next();
-                            System.out.print("Ingrese la fecha de pago del cheque (AAAA-MM-DD): ");
-                            String fechaPagoStr = teclado.next();
-                            ((Cheque) cuenta).depositarCheque(montoCheque, bancoEmisor,
-                                    java.time.LocalDate.parse(fechaPagoStr));
-                        } else if (cuenta instanceof CuentaConvertibilidad) { //Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
-                            System.out.print("Ingrese el monto del cheque a depositar en pesos: ");
-                            float montoCheque = teclado.nextFloat();
-                            System.out.print("Ingrese el banco emisor del cheque: ");
-                            String bancoEmisor = teclado.next();
-                            System.out.print("Ingrese la fecha de pago del cheque (AAAA-MM-DD): ");
-                            String fechaPagoStr = teclado.next();
-                            ((CuentaConvertibilidad) cuenta).depositarCheque(montoCheque, bancoEmisor,
-                                    java.time.LocalDate.parse(fechaPagoStr));
-                        } else {
-                            System.out.println("La cuenta no permite depósitos con cheque.");
-                        }
-                        break; //En este caso, se usa para salir de la sentencia.
+                    if (cuenta instanceof CuentaCorriente || cuenta instanceof CuentaConvertibilidad) {
+                        System.out.print("Ingrese el monto del cheque a depositar en pesos: ");
+                        float montoCheque = teclado.nextFloat();
+                        System.out.print("Ingrese el banco emisor del cheque: ");
+                        String bancoEmisor = teclado.next();
+                        System.out.print("Ingrese la fecha de pago del cheque (AAAA-MM-DD): ");
+                        String fechaPagoStr = teclado.next();
+                        ((CuentaCorriente) cuenta).depositarCheque(montoCheque, bancoEmisor,
+                        java.time.LocalDate.parse(fechaPagoStr));
+                    } else {
+                        System.out.println("La cuenta no permite depósitos con cheque.");
+                    }
+                    break;
                     case 6: //Se usa para definir un bloque de código.
                         if (cuenta instanceof CajaAhorro) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese la tasa de interés anual (en %): ");
@@ -202,10 +199,10 @@ public class TestActividad {
                         break; //En este caso, se usa para salir de la sentencia.
                     case 11: //Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaCorriente) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
-                            System.out.println("Monto autorizado (sobregiro) de la Cuenta Corriente: "
+                            System.out.println("Monto autorizado (sobregiro) de la Cuenta: "
                                     + ((CuentaCorriente) cuenta).getMontoAutorizado());
-                        } else if (cuenta instanceof CuentaConvertibilidad) {
-                            System.out.println("Monto autorizado (sobregiro) de la Cuenta Convertibilidad: "
+                        } else if (cuenta instanceof CuentaConvertibilidad) { 
+                            System.out.println("Monto autorizado (sobregiro) de la Cuenta: "
                                     + ((CuentaConvertibilidad) cuenta).getMontoAutorizado());
                         } else {
                             System.out.println("La cuenta no tiene monto autorizado.");

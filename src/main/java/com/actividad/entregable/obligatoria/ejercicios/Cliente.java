@@ -6,9 +6,7 @@ import lombok.Data;
 public abstract class Cliente{
     private int nroCliente;
 
-    public Cliente(int nroCliente){
+    public Cliente(int nroCliente) {
         this.nroCliente = nroCliente;
     }
-
-    
 }
