@@ -5,7 +5,7 @@ import lombok.Data;
 
 @AllArgsConstructor // Genera automáticamente un constructor con todos los campos de la clase como parámetros.
 @Data // Genera automáticamente los métodos getter, setter y toString para todos los campos de la clase.
-public class Cuenta {
+public abstract class Cuenta {
 
     private final int nroCuenta;
     private final Cliente cliente;

@@ -25,16 +25,16 @@ public class CuentaCorriente extends Cuenta {
             System.out.println("No es posible descontar ese monto. Límite de extracción (saldo + sobregiro): " + (this.saldo + this.montoAutorizado));
         }
     }
-    
-    public void depositarCheque(float monto, String bancoEmisor, LocalDate fechaDePago){
-        LocalDate hoy = LocalDate.now(); // Es una clase que representa una fecha sin zona horaria.
-        if (fechaDePago.isAfter(hoy)){ // El método isAfter() de la clase LocalDate se utiliza para comparar dos fechas y determinar si una fecha es posterior a otra.
-            System.out.println("El cheque aún no está disponible para depósito. Fecha de pago: " + fechaDePago);
-        } else if (monto <= 0) {
-            System.out.println("El monto del cheque debe ser positivo o no nulo.");
-        } else {
-            this.saldo += monto;
-            System.out.println("Cheque depositado por " + monto + " pesos del banco " + bancoEmisor + ". Nuevo saldo: " + saldo);
-        }
+
+    public void depositarCheque(Cheque cheque) {
+    LocalDate hoy = LocalDate.now(); // Es una clase que representa una fecha sin zona horaria.
+    if (cheque.getFechaDePago().isAfter(hoy)) { // El método isAfter() de la clase LocalDate se utiliza para comparar dos fechas y determinar si una fecha es posterior a otra.
+        System.out.println("El cheque aún no está disponible para depósito. Fecha de pago: " + cheque.getFechaDePago());
+    } else if (cheque.getMonto() <= 0) {
+        System.out.println("El monto del cheque debe ser positivo o no nulo.");
+    } else {
+        this.saldo += cheque.getMonto();
+        System.out.println("Cheque depositado por " + cheque.getMonto() + " pesos del banco " + cheque.getBancoEmisor() + ". Nuevo saldo: " + saldo);
     }
+}
 }

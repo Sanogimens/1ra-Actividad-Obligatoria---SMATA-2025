@@ -8,8 +8,7 @@ import lombok.ToString;
 public final class CuentaConvertibilidad extends CuentaCorriente {
     private float saldoEnDolares;
 
-    public CuentaConvertibilidad(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado,
-        float saldoEnDolares) {
+    public CuentaConvertibilidad(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado, float saldoEnDolares) {
         super(nroCuenta, cliente, saldo, montoAutorizado);
         this.saldoEnDolares = saldoEnDolares;
     }

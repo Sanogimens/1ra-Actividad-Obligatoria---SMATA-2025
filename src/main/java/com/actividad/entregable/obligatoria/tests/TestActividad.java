@@ -3,6 +3,7 @@ package com.actividad.entregable.obligatoria.tests;
 import java.util.Scanner;
 
 import com.actividad.entregable.obligatoria.ejercicios.CajaAhorro;
+import com.actividad.entregable.obligatoria.ejercicios.Cheque;
 import com.actividad.entregable.obligatoria.ejercicios.Cliente;
 import com.actividad.entregable.obligatoria.ejercicios.ClienteEmpresa;
 import com.actividad.entregable.obligatoria.ejercicios.ClienteIndividual;
@@ -52,7 +53,7 @@ public class TestActividad {
                     System.out.println("Ingrese su CUIT (11 dígitos):");
                     cuitStr = teclado.next();
                 } while (cuitStr.length() != 11);
-                long cuit = Long.parseLong(cuitStr); // uso long por seguridad
+                long cuit = Long.parseLong(cuitStr); // Uso long por seguridad.
                 ((ClienteEmpresa) cliente).setCuit(cuit);
             }
             System.out.print(
@@ -64,7 +65,7 @@ public class TestActividad {
             } else if (tipoCuenta == 2) {
                 cuenta = new CuentaCorriente(nroCliente, cliente, 0, 500000);
             } else {
-                cuenta = new CuentaConvertibilidad(nroCliente, cliente, 0, 500000, 0);
+                cuenta = new CuentaConvertibilidad(nroCliente, cliente, 0, 500000,0);
             }
             if (!(tipoCuenta == 1 || tipoCuenta == 2 || tipoCuenta == 3)) {
                 System.out.println("Tipo de cuenta no válido.");
@@ -113,17 +114,17 @@ public class TestActividad {
                             System.out.print("Ingrese el monto a extraer en pesos: ");
                             float montoExtraccionPesos = teclado.nextFloat();
                             cuenta.extraerEfectivo(montoExtraccionPesos);
-                            break; //En este caso, se usa para salir de la sentencia.
+                            break; // En este caso, se usa para salir de la sentencia.
                         } else if (cuenta instanceof CajaAhorro) {
                             System.out.print("Ingrese el monto a extraer en pesos: ");
                             float montoExtraccionPesos = teclado.nextFloat();
                             cuenta.extraerEfectivo(montoExtraccionPesos);
-                            break; //En este caso, se usa para salir de la sentencia.
+                            break; // En este caso, se usa para salir de la sentencia.
                         } else {
                             System.out.println("La cuenta no permite extracciones.");
-                            break; //En este caso, se usa para salir de la sentencia.
+                            break; // En este caso, se usa para salir de la sentencia.
                         }
-                    case 3: //Se usa para definir un bloque de código.
+                    case 3: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese el monto a depositar en dólares: ");
                             float montoDepositoDolares = teclado.nextFloat();
@@ -131,8 +132,8 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no permite operaciones en dólares.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 4: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 4: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese el monto a extraer en dólares: ");
                             float montoExtraccionDolares = teclado.nextFloat();
@@ -140,22 +141,28 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no permite operaciones en dólares.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 5:
-                    if (cuenta instanceof CuentaCorriente || cuenta instanceof CuentaConvertibilidad) {
-                        System.out.print("Ingrese el monto del cheque a depositar en pesos: ");
-                        float montoCheque = teclado.nextFloat();
-                        System.out.print("Ingrese el banco emisor del cheque: ");
-                        String bancoEmisor = teclado.next();
-                        System.out.print("Ingrese la fecha de pago del cheque (AAAA-MM-DD): ");
-                        String fechaPagoStr = teclado.next();
-                        ((CuentaCorriente) cuenta).depositarCheque(montoCheque, bancoEmisor,
-                        java.time.LocalDate.parse(fechaPagoStr));
-                    } else {
-                        System.out.println("La cuenta no permite depósitos con cheque.");
-                    }
-                    break;
-                    case 6: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                        case 5:
+                        if (cuenta instanceof CuentaCorriente || cuenta instanceof CuentaConvertibilidad) {
+                            System.out.print("Ingrese el monto del cheque a depositar en pesos: ");
+                            float monto = teclado.nextFloat();
+                            System.out.print("Ingrese el banco emisor del cheque: ");
+                            String bancoEmisor = teclado.next();
+                            System.out.print("Ingrese la fecha de pago del cheque (AAAA-MM-DD): ");
+                            String fechaDePagoStr = teclado.next();
+                            java.time.LocalDate fechaCheque = java.time.LocalDate.parse(fechaDePagoStr);
+                            Cheque chequeNuevo = new Cheque(monto, bancoEmisor, fechaCheque);
+                            if (cuenta instanceof CuentaCorriente) {
+                                ((CuentaCorriente) cuenta).depositarCheque(chequeNuevo);
+                            } else if (cuenta instanceof CuentaConvertibilidad) {
+                                ((CuentaConvertibilidad) cuenta).depositarCheque(chequeNuevo); 
+                            }
+                            System.out.println("Cheque depositado exitosamente.");
+                        } else {
+                            System.out.println("La cuenta no permite depósitos con cheque.");
+                        }
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 6: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CajaAhorro) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese la tasa de interés anual (en %): ");
                             double tasaDeInteres = teclado.nextDouble();
@@ -165,8 +172,8 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no genera intereses.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 7: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 7: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese el monto en pesos a convertir a dólares: ");
                             float montoPesos = teclado.nextFloat();
@@ -175,8 +182,8 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no permite conversión de moneda.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 8: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 8: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.print("Ingrese el monto en dólares a convertir a pesos: ");
                             float montoDolares = teclado.nextFloat();
@@ -185,19 +192,19 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no permite conversión de moneda.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 9: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 9: // Se usa para definir un bloque de código.
                         System.out.println("Saldo en pesos: " + cuenta.getSaldo());
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 10: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 10: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaConvertibilidad) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.println(
                                     "Saldo en dólares: " + ((CuentaConvertibilidad) cuenta).getSaldoEnDolares());
                         } else {
                             System.out.println("La cuenta no maneja saldo en dólares.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 11: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 11: // Se usa para definir un bloque de código.
                         if (cuenta instanceof CuentaCorriente) { // Se usa el operador binario instanceof para verificar si el objeto pertenece a la clase.
                             System.out.println("Monto autorizado (sobregiro) de la Cuenta: "
                                     + ((CuentaCorriente) cuenta).getMontoAutorizado());
@@ -207,15 +214,15 @@ public class TestActividad {
                         } else {
                             System.out.println("La cuenta no tiene monto autorizado.");
                         }
-                        break; //En este caso, se usa para salir de la sentencia.
-                    case 0: //Se usa para definir un bloque de código.
+                        break; // En este caso, se usa para salir de la sentencia.
+                    case 0: // Se usa para definir un bloque de código.
                         System.out.println("Saliendo del sistema...");
-                        break; //En este caso, se usa para salir de la sentencia.
+                        break; // En este caso, se usa para salir de la sentencia.
                     default:
                         System.out.println("Operación no válida.");
-                        break; //En este caso, se usa para salir de la sentencia.
+                        break; // En este caso, se usa para salir de la sentencia.
                 }
-            } while (operacion != 0); //Se finaliza el bucle al pulsar 0 en el menú de operaciones.
+            } while (operacion != 0); // Se finaliza el bucle al pulsar 0 en el menú de operaciones.
         }
     }
 }
