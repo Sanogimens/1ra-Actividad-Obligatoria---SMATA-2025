@@ -18,8 +18,8 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
             System.out.println("El monto a depositar debe ser positivo o no nulo.");
         } else {
             saldoEnDolares += montoEnDolares;
-            double tasaCambioPesosADolares = 1300.00; // Tasa de cambio fija
-            float montoEnPesos = (float)(montoEnDolares * tasaCambioPesosADolares); // Deposito en dólares
+            double tasaCambioPesosADolares = 1300.00; // Tasa de cambio fija.
+            float montoEnPesos = (float)(montoEnDolares * tasaCambioPesosADolares); // DMuestra el monto equivalente a pesos argentinos.
             System.out.println("Depositaste " + montoEnDolares + " dólares (" + montoEnPesos + " pesos argentinos).");
             System.out.println("Saldo actual en dólares: " + saldoEnDolares);
         }
@@ -28,8 +28,8 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
     public void extraerDolares(float montoEnDolares) {
         if (montoEnDolares <= saldoEnDolares) {
             saldoEnDolares -= montoEnDolares;
-            double tasaCambioDolaresAPesos = 1 / 1300.00; // Tasa de cambio fija
-            float montoEnPesos = (float)(montoEnDolares / tasaCambioDolaresAPesos); // Extracción en dólares
+            double tasaCambioDolaresAPesos = 1 / 1300.00; // Tasa de cambio fija.
+            float montoEnPesos = (float)(montoEnDolares / tasaCambioDolaresAPesos); // Muestra el monto equivalente a pesos argentinos.
             System.out.println("Retiraste " + montoEnDolares + " dólares (" + montoEnPesos + " pesos argentinos).");
             System.out.println("Saldo restante en dólares: " + saldoEnDolares);
         } else {
@@ -44,8 +44,8 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
             System.out.println("No tienes suficiente saldo en pesos para convertir esa cantidad.");
         } else {
             CuentaConvertibilidad.this.saldo -= saldoEnPesos;
-            double tasaCambioPesosADolares = 1300.00; // Tasa de cambio fija
-            CuentaConvertibilidad.this.saldoEnDolares += (saldoEnPesos / tasaCambioPesosADolares); // Conversión a dólares
+            double tasaCambioPesosADolares = 1300.00; // Tasa de cambio fija.
+            CuentaConvertibilidad.this.saldoEnDolares += (saldoEnPesos / tasaCambioPesosADolares); // Conversión a dólares.
             System.out.println("Tus " + saldoEnPesos + " pesos argentinos pasan a ser " + (saldoEnPesos / tasaCambioPesosADolares) + " dólares.");
         }
     }
