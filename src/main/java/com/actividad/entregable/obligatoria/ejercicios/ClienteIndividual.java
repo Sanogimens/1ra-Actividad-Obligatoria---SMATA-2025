@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter // Genera automáticamente los métodos setter para todos los campos de la clase.
 @ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
 public final class ClienteIndividual extends Cliente {
+    
     private String nombre;
     private String apellido;
     private int dni;
@@ -18,4 +19,5 @@ public final class ClienteIndividual extends Cliente {
         this.apellido = apellido;
         this.dni = dni;
     }
+    
 }

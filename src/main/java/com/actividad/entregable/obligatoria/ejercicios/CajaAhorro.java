@@ -6,6 +6,7 @@ import lombok.ToString;
 @Getter // Genera automáticamente los métodos getter para todos los campos.
 @ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
 public final class CajaAhorro extends Cuenta {
+    
     private double tasaDeInteres;
 
     public CajaAhorro(int nroCuenta, Cliente cliente, float saldo, double tasaDeInteres) {
@@ -24,4 +25,5 @@ public final class CajaAhorro extends Cuenta {
             System.out.println("Saldo actual en pesos: " + saldo);
         }
     }
+    
 }

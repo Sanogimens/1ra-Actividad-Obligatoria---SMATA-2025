@@ -8,7 +8,7 @@ import lombok.Data;
 public abstract class Cuenta {
 
     private final int nroCuenta;
-    private final Cliente cliente;
+    private Cliente cliente;
     protected float saldo;
 
    public void depositarEfectivo(float monto) {
@@ -30,4 +30,5 @@ public abstract class Cuenta {
             System.out.println("No es posible descontar ese monto.");
         }
     }
+    
 }

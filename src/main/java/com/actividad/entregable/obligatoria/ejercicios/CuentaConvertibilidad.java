@@ -6,11 +6,21 @@ import lombok.ToString;
 @Getter // Genera automáticamente los métodos getter para todos los campos.
 @ToString(callSuper = true) // Genera un método toString() que incluye los campos de la clase padre.
 public final class CuentaConvertibilidad extends CuentaCorriente {
+    
     private float saldoEnDolares;
 
-    public CuentaConvertibilidad(int nroCuenta, Cliente cliente, float saldo, float montoAutorizado, float saldoEnDolares) {
+    public CuentaConvertibilidad(int nroCuenta, ClienteEmpresa cliente, float saldo, float montoAutorizado, float saldoEnDolares) {
         super(nroCuenta, cliente, saldo, montoAutorizado);
         this.saldoEnDolares = saldoEnDolares;
+    }
+
+    @Override // Redefine el método de la clase padre.
+    public void setCliente (Cliente cliente) {
+        if(cliente instanceof ClienteEmpresa) {
+            super.setCliente(cliente);
+        } else {
+            System.out.println("No se puede asignar un cliente que no sea cliente empresa.");
+        }
     }
 
     public void depositarDolares(float montoEnDolares) {
@@ -63,4 +73,5 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
             System.out.println("Tus " + saldoEnDolares + " dólares pasan a ser " + (saldoEnDolares / tasaCambioDolaresAPesos) + " pesos argentinos.");
         }
     }
+    
 }
