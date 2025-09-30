@@ -19,7 +19,7 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
         } else {
             saldoEnDolares += montoEnDolares;
             double tasaCambioPesosADolares = 1300.00; // Tasa de cambio fija.
-            float montoEnPesos = (float)(montoEnDolares * tasaCambioPesosADolares); // DMuestra el monto equivalente a pesos argentinos.
+            float montoEnPesos = (float)(montoEnDolares * tasaCambioPesosADolares); // Muestra el monto equivalente a pesos argentinos.
             System.out.println("Depositaste " + montoEnDolares + " dólares (" + montoEnPesos + " pesos argentinos).");
             System.out.println("Saldo actual en dólares: " + saldoEnDolares);
         }
