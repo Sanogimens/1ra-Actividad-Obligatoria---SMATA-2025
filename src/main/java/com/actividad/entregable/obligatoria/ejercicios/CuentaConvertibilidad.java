@@ -14,7 +14,7 @@ public final class CuentaConvertibilidad extends CuentaCorriente {
         this.saldoEnDolares = saldoEnDolares;
     }
 
-    @Override // Redefine el método de la clase padre.
+    @Override // Redefine el método para que solo los clientes empresa puedan usar esta cuenta.
     public void setCliente (Cliente cliente) {
         if(cliente instanceof ClienteEmpresa) {
             super.setCliente(cliente);
